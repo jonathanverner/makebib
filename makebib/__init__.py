@@ -15,6 +15,8 @@ from pybtex.__main__ import main as run_bibtex
 from pybtex import auxfile
 from pybtex import database
 
+from .about import __version__, __summary__, __title__
+
 logger = logging.getLogger(__name__)
 
 DEFAULT_CFG = {
@@ -25,7 +27,7 @@ CFG_FILES = ['/etc/makebib', '~/.makebib', './.makebib']
 
 def construct_argparser():
     parser = argparse.ArgumentParser(
-        description='A simple script to generate a local bib file from a central database.',
+        description=__summary__,
         epilog="""
   CONFIGURATION
 
@@ -42,6 +44,8 @@ def construct_argparser():
     )
     parser.add_argument('--db', help='Path to the central bib dbase')
     parser.add_argument('--config', help='Path to the configuration file')
+    parser.add_argument('--version', help='Print the version and exit', action='store_true', default=False)
+    parser.add_argument('--license', help='Print the license text and exit', action='store_true', default=False)
 
     command_parsers = parser.add_subparsers(dest='action')
 
@@ -140,6 +144,15 @@ def main():
 
     if args.db:
         CFG['db'] = args.db
+
+    if args.version:
+        print(__title__+' version '+__version__)
+        exit(1)
+
+    if args.license:
+        license_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'LICENSE.txt')
+        print(open(license_path).read())
+        exit(1)
 
     if args.action == 'compile':
         make_bib(args.document, CFG['db'], force_overwrite=args.force_overwrite)

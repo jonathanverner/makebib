@@ -24,26 +24,30 @@ except (ImportError, OSError):
     with open(path.join(here, 'README.md'), encoding="utf-8") as f:
         long_description = f.read()
 
+about = {}
+with open(path.join(here, "makebib", "about.py")) as fp:
+    exec(fp.read(), about)
+
 setup(
-    name='makebib',
+    name=about['__title__'],
 
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version='0.2.0',
+    version=about['__version__'],
 
-    description='A simple script to generate a local bib file from a central database',
+    description=about['__summary__'],
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://gitlab.com/Verner/makebib',
+    url=about['__url__'],
 
     # Author details
-    author='Jonathan L. Verner',
-    author_email='jonathan@temno.eu',
+    author=about['__author__'],
+    author_email=about['__email__'],
 
     # Choose your license
-    license='MIT',
+    license=about['__license__'],
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
