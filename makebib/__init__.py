@@ -43,6 +43,7 @@ def construct_argparser():
 
     compile_parser = command_parsers.add_parser('compile', help='Create a local bib file for the given TeX-file and run BibTeX')
     compile_parser.add_argument('document', help='base filename of the TeX source')
+    compile_parser.add_argument('bibargs', help='arguments passed to BibTeX', nargs='*')
     compile_parser.add_argument('--nobibtex', help='do not run bibtex', action='store_true', default=False)
 
     show_parser = command_parsers.add_parser('show', help='Show various information')
@@ -130,6 +131,7 @@ def main():
     if args.action == 'compile':
         make_bib(args.document, CFG['db'])
         if not args.nobibtex:
+            sys.argv = [sys.argv[0], args.document]+args.bibargs
             run_bibtex()
 
     elif args.action == 'show':
