@@ -26,7 +26,7 @@ of BibTeX on the TeX file.
 The filename of the local bib file is extracted from the TeX file
 by looking for a `\bibliography` command. The program will refuse
 to overrite a previously existing bib file unless given the
-`--force-overwrite` option or unless it finds a file named `.generated_bib'
+`--force-overwrite` option or unless it finds a file named `.generated_bib`
 in the current directory. Additionally, whenever it creates
 (or overwrites) a local bib file, it also creates the file named `.generated_bib`
 to indicate, that the file was automatically generated.
@@ -46,6 +46,12 @@ subcommands:
 
 - `cfg`      Lists the values (or their defaults) of all configuration
              settings (and/or their defaults).
+
+Additional help is available by running
+
+```bash
+$ makebib [cmd] --help
+```
 
 ## Configuration
 
