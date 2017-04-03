@@ -11,29 +11,30 @@ $ makebib arg
 
 where `arg` is either
 
-    - the basename of a TeX-file, in which case
-    the script creates a bib file and populates it with items
-    which are cited by the document and can be found in the
-    central database. Then it runs (a python version) of bibtex
-    on the texfile.
-
-or
-    - `--list` which is followed by one of `cited`, `missing`, `all`, `cfg`
-    and (in the first three cases) a TeX-file in which case the program prints
-    out a list of
-
-      - `cited`    citekeys which are cited in the TeX-file
-
-      - `missing`  citekeys which are cited in the TeX-file but not present
-                 in the central database
-
-      - `all`      all citekeys in the central database
-
-      - `cfg`      configuration
+- the basename of a TeX-file, in which case
+  the script creates a bib file and populates it with items
+  which are cited by the document and can be found in the
+  central database. Then it runs (a python version) of bibtex
+  on the texfile.
 
 or
 
-    - `--help` which prints out a short help message
+- `--list` which is followed by one of `cited`, `missing`, `all`, `cfg`
+   and (in the first three cases) a TeX-file in which case the program prints
+   out a list of
+ 
+   - `cited`    citekeys which are cited in the TeX-file
+
+   - `missing`  citekeys which are cited in the TeX-file but not present
+                in the central database
+
+   - `all`      all citekeys in the central database
+
+   - `cfg`      configuration
+
+or
+
+- `--help` which prints out a short help message
 
 ## Configuration
 
