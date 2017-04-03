@@ -1,0 +1,5 @@
+build*
+dist*
+makebib.egg-info*
+*.kdev4*
+*pyc
