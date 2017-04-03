@@ -87,6 +87,13 @@ def list_missing_keys(basename, bib_dbase):
     print('\n'.join(missing))
 
 
+def show_bibentry(key, bib_dbase):
+    db = database.parse_file(os.path.expanduser(bib_dbase))
+    if key in db.entries:
+        data = database.BibliographyData(entries={key: db.entries[key]})
+        print(data.to_string(bib_format='bibtex'))
+
+
 def load_cfg(cfg_file=None):
     global CFG_FILES, DEFAULT_CFG
     cfg = {}
