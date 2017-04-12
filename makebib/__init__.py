@@ -73,6 +73,23 @@ def construct_argparser():
     return parser
 
 
+def extract_alt_keys(entry):
+    alt_keys = []
+    for field, value in entry.fields.items():
+        if field.lower() == 'altkeys':
+            alt_keys.append(value)
+    return alt_keys
+
+
+def create_alt_keys_map(db):
+    map = {}
+    for key, entry in db.entries.items():
+        map[key] = entry
+        for altk in extract_alt_keys(entry):
+            map[altk] = entry
+    return map
+
+
 def make_bib(basename, bib_dbase, force_overwrite=False):
     aux_data = auxfile.parse_file(basename + '.aux')
     if force_overwrite or not os.path.exists(aux_data.data[0]+'.bib') or os.path.exists('.generated_bib'):
@@ -81,7 +98,8 @@ def make_bib(basename, bib_dbase, force_overwrite=False):
             OUT.write("Source TeX file: "+basename+'.tex')
             OUT.write("BibTeX dbase: "+bib_dbase)
         db = database.parse_file(os.path.expanduser(bib_dbase))
-        outdb = database.BibliographyData({key: db.entries[key] for key in aux_data.citations if key in db.entries})
+        alt_map = create_alt_keys_map(db)
+        outdb = database.BibliographyData({key: alt_map[key] for key in aux_data.citations if key in alt_map})
         outdb.to_file(aux_data.data[0] + '.bib', bib_format='bibtex')
     else:
         logger.warn("An existing local bib database found and .generated_bib is not present. Refusing to overwrite.")
@@ -101,7 +119,8 @@ def list_db_keys(bib_dbase):
 def list_missing_keys(basename, bib_dbase):
     aux_data = auxfile.parse_file(basename + '.aux')
     db = database.parse_file(os.path.expanduser(bib_dbase))
-    missing = [key for key in aux_data.citations if key not in db.entries]
+    alt_map = create_alt_keys_map(db)
+    missing = [key for key in aux_data.citations if key not in alt_map]
     print('\n'.join(missing))
 
 
