@@ -2,6 +2,18 @@ Changelog
 =========
 
 
+0.2.1 (2017-04-12)
+------------------
+
+New
+~~~
+- Use altkeys field to search for additional citekeys. [Jonathan Verner]
+
+  This change allows a BibTeX entry to have an altkeys field, which is a
+  comma separated list of additional citekeys by which the entry may
+  be cited in the document.
+
+
 0.2.0 (2017-04-03)
 ------------------
 

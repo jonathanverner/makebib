@@ -15,7 +15,7 @@ except NameError:
 __title__   = "makebib"
 __summary__ = "A simple script to generate a local bib file from a central database."
 __url__     = 'https://gitlab.com/Verner/makebib'
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 __author__  = "Jonathan L. Verner"
 __email__   = "jonathan@temno.eu"
 __license__ = "MIT"
