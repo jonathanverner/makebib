@@ -14,6 +14,7 @@ import argparse
 from pybtex.__main__ import main as run_bibtex
 from pybtex import auxfile
 from pybtex import database
+from pybtex.database.output.bibtex import Writer as BibTeXWriter
 
 from .about import __version__, __summary__, __title__
 
@@ -100,7 +101,26 @@ def make_bib(basename, bib_dbase, force_overwrite=False):
         db = database.parse_file(os.path.expanduser(bib_dbase))
         alt_map = create_alt_keys_map(db)
         outdb = database.BibliographyData({key: alt_map[key] for key in aux_data.citations if key in alt_map})
-        outdb.to_file(aux_data.data[0] + '.bib', bib_format='bibtex')
+
+        # The following is copied from pybtex source to work around
+        # the fact that bib entries are output in random order...
+        # outdb.to_file(aux_data.data[0] + '.bib', bib_format='bibtex')
+        writer = BibTeXWriter()
+        with open(aux_data.data[0] + '.bib', 'w') as BIB:
+            writer._write_preamble(BIB, outdb.preamble)
+            first = True
+            for key, entry in sorted(outdb.entries.items(), key=lambda x: x[0]):
+                if not first:
+                    BIB.write(u'\n')
+                first = False
+
+                BIB.write(u'@%s' % entry.original_type)
+                BIB.write(u'{%s' % key)
+                for role, persons in entry.persons.items():
+                    writer._write_persons(BIB, persons, role)
+                for type, value in entry.fields.items():
+                    writer._write_field(BIB, type, value)
+                BIB.write(u'\n}\n')
     else:
         logger.warn("An existing local bib database found and .generated_bib is not present. Refusing to overwrite.")
         logger.warn("(use --force-overwrite to overwrite to ignore)")

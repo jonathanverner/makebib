@@ -1,6 +1,16 @@
 Changelog
 =========
 
+0.2.2 (2018-02-15)
+------------------
+
+New
+~~~
+- Sort the entries in the generated bib-file. [Jonathan Verner]
+
+  This change makes sure the bib-file does not change on each run
+  (and thus makes things easier if it is kept under VCS).
+
 
 0.2.1 (2017-04-12)
 ------------------
